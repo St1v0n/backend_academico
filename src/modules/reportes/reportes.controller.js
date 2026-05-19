@@ -43,12 +43,12 @@ export async function getHistorial(
 
   try {
 
-    const { estudianteId } =
-      req.params;
+    const { search } =
+      req.query;
 
     const historial =
       await reportHistorialEstudiante(
-        estudianteId
+        search
       );
 
     res.json({
