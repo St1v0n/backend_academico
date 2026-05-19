@@ -1,7 +1,7 @@
 import pool from '../../config/db.js';
 
 export async function getInscritosByMateria(
-  materiaId
+  search
 ) {
 
   const query = `
@@ -36,14 +36,16 @@ export async function getInscritosByMateria(
     INNER JOIN periodo_academico p
       ON i.periodo_id = p.id_periodo
 
-    WHERE m.id_materia = $1
+    WHERE
+      LOWER(m.nombre) LIKE LOWER($1)
+      OR LOWER(m.sigla) LIKE LOWER($1)
 
     ORDER BY
       u.apellidos ASC
   `;
 
   const result =
-    await pool.query(query, [materiaId]);
+    await pool.query(query, [`%${search}%`]);
 
   return result.rows;
 
