@@ -19,7 +19,7 @@ import {
 const router = Router();
 
 router.get(
-  '/materia/:materiaId',
+  '/materia',
   authMiddleware,
   roleMiddleware(
     'SECRETARIA',
