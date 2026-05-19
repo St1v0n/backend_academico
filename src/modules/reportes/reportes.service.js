@@ -26,12 +26,12 @@ export async function reportInscritosMateria(
 }
 
 export async function reportHistorialEstudiante(
-  estudianteId
+  search
 ) {
 
   const historial =
     await getHistorialEstudiante(
-      estudianteId
+      search
     );
 
   if (historial.length === 0) {
