@@ -1,7 +1,8 @@
 import {
   createNewInscripcion,
   getAllInscripciones,
-  getHistorialStudent
+  getHistorialStudent,
+  getMateriasDisponiblesService
 } from './inscripciones.service.js';
 
 export async function createInscripcion(
@@ -77,6 +78,36 @@ export async function getHistorial(
     res.status(200).json({
       success: true,
       data: historial
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+
+  }
+
+}
+export async function getMateriasDisponibles(
+  req,
+  res
+) {
+
+  try {
+
+    const estudianteId =
+      req.user.id;
+
+    const materias =
+      await getMateriasDisponiblesService(
+        estudianteId
+      );
+
+    res.status(200).json({
+      success: true,
+      data: materias
     });
 
   } catch (error) {

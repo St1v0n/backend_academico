@@ -261,3 +261,26 @@ export async function findHistorialByStudent(
   return result.rows;
 
 }
+export async function findMateriasByCarrera(
+  carreraId
+) {
+
+  const query = `
+    SELECT
+      id_materia,
+      nombre,
+      sigla,
+      semestre
+    FROM materia
+    WHERE carrera_id = $1
+    ORDER BY semestre ASC
+  `;
+
+  const result =
+    await pool.query(query, [
+      carreraId
+    ]);
+
+  return result.rows;
+
+}

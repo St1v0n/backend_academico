@@ -3,7 +3,8 @@ import { Router } from 'express';
 import {
   createInscripcion,
   getInscripciones,
-  getHistorial
+  getHistorial,
+  getMateriasDisponibles
 } from './inscripciones.controller.js';
 
 import { authMiddleware } from '../../middlewares/auth.middleware.js';
@@ -35,6 +36,12 @@ router.get(
     'ESTUDIANTE'
   ),
   getHistorial
+);
+router.get(
+  '/disponibles',
+  authMiddleware,
+  roleMiddleware('ESTUDIANTE'),
+  getMateriasDisponibles
 );
 
 export default router;

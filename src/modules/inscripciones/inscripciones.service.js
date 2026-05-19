@@ -7,7 +7,8 @@ import {
   validateApprovedPrerrequisito,
   insertInscripcion,
   findAllInscripciones,
-  findHistorialByStudent
+  findHistorialByStudent,
+  findMateriasByCarrera
 } from './inscripciones.model.js';
 
 export async function createNewInscripcion(
@@ -134,5 +135,88 @@ export async function getHistorialStudent(
   return await findHistorialByStudent(
     estudianteId
   );
+
+}
+export async function getMateriasDisponiblesService(
+  estudianteId
+) {
+
+  // Buscar estudiante
+  const student =
+    await findStudentById(
+      estudianteId
+    );
+
+  if (!student) {
+
+    throw new Error(
+      'Estudiante no encontrado'
+    );
+
+  }
+
+  // Buscar materias
+  const materias =
+    await findMateriasByCarrera(
+      student.carrera_id
+    );
+
+  const resultado = [];
+
+  for (const materia of materias) {
+
+    // Verificar si ya aprobó
+    const approved =
+      await validateApprovedPrerrequisito(
+        estudianteId,
+        materia.id_materia
+      );
+
+    if (approved) {
+
+      resultado.push({
+        ...materia,
+        estado: 'APROBADA'
+      });
+
+      continue;
+
+    }
+
+    // Buscar prerrequisitos
+    const prerrequisitos =
+      await findPrerrequisitos(
+        materia.id_materia
+      );
+
+    let cumple = true;
+
+    for (const prerreq of prerrequisitos) {
+
+      const aprobado =
+        await validateApprovedPrerrequisito(
+          estudianteId,
+          prerreq.materia_prerrequisito_id
+        );
+
+      if (!aprobado) {
+
+        cumple = false;
+        break;
+
+      }
+
+    }
+
+    resultado.push({
+      ...materia,
+      estado: cumple
+        ? 'DISPONIBLE'
+        : 'BLOQUEADA'
+    });
+
+  }
+
+  return resultado;
 
 }
