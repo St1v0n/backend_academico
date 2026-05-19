@@ -50,7 +50,7 @@ export async function getInscritosByMateria(
 }
 
 export async function getHistorialEstudiante(
-  estudianteId
+  search
 ) {
 
   const query = `
@@ -102,7 +102,15 @@ export async function getHistorialEstudiante(
     INNER JOIN periodo_academico p
       ON i.periodo_id = p.id_periodo
 
-    WHERE u.id_usuario = $1
+    WHERE
+      LOWER(
+        CONCAT(
+          u.nombres,
+          ' ',
+          u.apellidos
+        )
+      )
+      LIKE LOWER($1)
 
     ORDER BY
       p.gestion ASC,
@@ -111,7 +119,9 @@ export async function getHistorialEstudiante(
   `;
 
   const result =
-    await pool.query(query, [estudianteId]);
+    await pool.query(query, [
+      `%${search}%`
+    ]);
 
   return result.rows;
 
