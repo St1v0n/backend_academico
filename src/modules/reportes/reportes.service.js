@@ -7,12 +7,12 @@ import {
 } from './reportes.model.js';
 
 export async function reportInscritosMateria(
-  materiaId
+  search
 ) {
 
   const report =
     await getInscritosByMateria(
-      materiaId
+      search
     );
 
   if (report.length === 0) {
