@@ -13,11 +13,11 @@ export async function getReportMateria(
 
   try {
 
-    const { materiaId } = req.params;
+    const { search } = req.query;
 
     const report =
       await reportInscritosMateria(
-        materiaId
+        search
       );
 
     res.json({
