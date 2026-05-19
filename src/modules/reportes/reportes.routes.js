@@ -29,7 +29,7 @@ router.get(
 );
 
 router.get(
-  '/historial/:estudianteId',
+  '/historial',
   authMiddleware,
   roleMiddleware(
     'SECRETARIA',
