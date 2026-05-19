@@ -190,7 +190,7 @@ export async function findDocentes() {
       nombres,
       apellidos
     FROM usuario
-    WHERE rol_id = 2
+    WHERE rol_id = 3
     AND estado = true
     ORDER BY nombres ASC
   `;
@@ -208,7 +208,7 @@ export async function findEstudiantes() {
       nombres,
       apellidos
     FROM usuario
-    WHERE rol_id = 3
+    WHERE rol_id = 2
     AND estado = true
     ORDER BY nombres ASC
   `;
