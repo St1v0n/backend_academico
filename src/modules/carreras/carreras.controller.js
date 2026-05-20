@@ -117,7 +117,10 @@ export async function disableCarrera(req, res) {
 
     res.status(200).json({
       success: true,
-      message: 'Carrera desactivada correctamente',
+      message:
+        carrera.estado
+          ? 'Carrera activada correctamente'
+          : 'Carrera desactivada correctamente',
       data: carrera
     });
 

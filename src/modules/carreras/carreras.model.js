@@ -90,7 +90,7 @@ export async function disableCarreraData(id) {
 
   const query = `
     UPDATE carrera
-    SET estado = false
+    SET estado = NOT estado
     WHERE id_carrera = $1
     RETURNING
       id_carrera,

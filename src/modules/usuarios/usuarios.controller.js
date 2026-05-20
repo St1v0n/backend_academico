@@ -116,7 +116,10 @@ export async function disableUser(req, res) {
 
     res.status(200).json({
       success: true,
-      message: 'Usuario desactivado correctamente',
+      message:
+        user.estado
+          ? 'Usuario activado correctamente'
+          : 'Usuario desactivado correctamente',
       data: user
     });
 

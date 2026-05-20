@@ -183,7 +183,7 @@ export async function disableUserData(id) {
 
   const query = `
     UPDATE usuario
-    SET estado = false
+    SET estado = NOT estado
     WHERE id_usuario = $1
 
     RETURNING
