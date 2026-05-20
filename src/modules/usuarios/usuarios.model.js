@@ -11,10 +11,17 @@ export async function findAllUsers() {
       u.correo,
       u.estado,
       r.nombre AS rol,
+      c.nombre AS carrera,
+      u.carrera_id,
       u.created_at
     FROM usuario u
+
     INNER JOIN rol r
       ON u.rol_id = r.id_rol
+
+    LEFT JOIN carrera c
+      ON u.carrera_id = c.id_carrera
+
     ORDER BY u.id_usuario ASC
   `;
 
@@ -61,9 +68,11 @@ export async function insertUser(user) {
       ci,
       correo,
       password,
-      rol_id
+      rol_id,
+      carrera_id
     )
-    VALUES ($1, $2, $3, $4, $5, $6)
+    VALUES ($1, $2, $3, $4, $5, $6, $7)
+
     RETURNING
       id_usuario,
       nombres,
@@ -71,6 +80,7 @@ export async function insertUser(user) {
       ci,
       correo,
       rol_id,
+      carrera_id,
       estado,
       created_at
   `;
@@ -81,7 +91,8 @@ export async function insertUser(user) {
     user.ci,
     user.correo,
     user.password,
-    user.rol_id
+    user.rol_id,
+    user.carrera_id || null
   ];
 
   const result = await pool.query(query, values);
@@ -100,11 +111,22 @@ export async function findUserById(id) {
       u.ci,
       u.correo,
       u.estado,
+      u.carrera_id,
+
       r.nombre AS rol,
+
+      c.nombre AS carrera,
+
       u.created_at
+
     FROM usuario u
+
     INNER JOIN rol r
       ON u.rol_id = r.id_rol
+
+    LEFT JOIN carrera c
+      ON u.carrera_id = c.id_carrera
+
     WHERE u.id_usuario = $1
   `;
 
@@ -118,13 +140,17 @@ export async function updateUserData(id, user) {
 
   const query = `
     UPDATE usuario
+
     SET
       nombres = $1,
       apellidos = $2,
       ci = $3,
       correo = $4,
-      rol_id = $5
-    WHERE id_usuario = $6
+      rol_id = $5,
+      carrera_id = $6
+
+    WHERE id_usuario = $7
+
     RETURNING
       id_usuario,
       nombres,
@@ -132,6 +158,7 @@ export async function updateUserData(id, user) {
       ci,
       correo,
       rol_id,
+      carrera_id,
       estado,
       created_at
   `;
@@ -142,6 +169,7 @@ export async function updateUserData(id, user) {
     user.ci,
     user.correo,
     user.rol_id,
+    user.carrera_id || null,
     id
   ];
 
@@ -157,6 +185,7 @@ export async function disableUserData(id) {
     UPDATE usuario
     SET estado = false
     WHERE id_usuario = $1
+
     RETURNING
       id_usuario,
       nombres,
@@ -182,6 +211,7 @@ export async function updateUserPassword(id, password) {
   await pool.query(query, [password, id]);
 
 }
+
 export async function findDocentes() {
 
   const query = `
@@ -190,8 +220,10 @@ export async function findDocentes() {
       nombres,
       apellidos
     FROM usuario
+
     WHERE rol_id = 3
     AND estado = true
+
     ORDER BY nombres ASC
   `;
 
@@ -200,6 +232,7 @@ export async function findDocentes() {
   return result.rows;
 
 }
+
 export async function findEstudiantes() {
 
   const query = `
@@ -208,8 +241,10 @@ export async function findEstudiantes() {
       nombres,
       apellidos
     FROM usuario
+
     WHERE rol_id = 2
     AND estado = true
+
     ORDER BY nombres ASC
   `;
 
