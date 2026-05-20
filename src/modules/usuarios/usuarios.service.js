@@ -40,19 +40,26 @@ export async function createNewUser(data) {
     apellidos,
     ci,
     correo,
-    rol_id
+    rol_id,
+    carrera_id
   } = data;
 
-  const existingEmail = await findUserByEmail(correo);
+  const existingEmail =
+    await findUserByEmail(correo);
 
   if (existingEmail) {
-    throw new Error('El correo ya existe');
+    throw new Error(
+      'El correo ya existe'
+    );
   }
 
-  const existingCI = await findUserByCI(ci);
+  const existingCI =
+    await findUserByCI(ci);
 
   if (existingCI) {
-    throw new Error('El CI ya existe');
+    throw new Error(
+      'El CI ya existe'
+    );
   }
 
   const tempPassword =
@@ -60,19 +67,22 @@ export async function createNewUser(data) {
     apellidos.charAt(0).toUpperCase() +
     ci;
 
-  const hashedPassword = await bcrypt.hash(
-    tempPassword,
-    10
-  );
+  const hashedPassword =
+    await bcrypt.hash(
+      tempPassword,
+      10
+    );
 
-  const newUser = await insertUser({
-    nombres,
-    apellidos,
-    ci,
-    correo,
-    password: hashedPassword,
-    rol_id
-  });
+  const newUser =
+    await insertUser({
+      nombres,
+      apellidos,
+      ci,
+      correo,
+      password: hashedPassword,
+      rol_id,
+      carrera_id
+    });
 
   return {
     ...newUser,
