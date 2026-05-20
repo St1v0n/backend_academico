@@ -170,12 +170,13 @@ export async function disableMateriaData(id) {
 
   const query = `
     UPDATE materia
-    SET estado = false
+    SET estado = NOT estado
     WHERE id_materia = $1
     RETURNING *
   `;
 
-  const result = await pool.query(query, [id]);
+  const result =
+    await pool.query(query, [id]);
 
   return result.rows[0];
 

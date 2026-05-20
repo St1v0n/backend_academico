@@ -118,7 +118,10 @@ export async function disableMateria(req, res) {
 
     res.status(200).json({
       success: true,
-      message: 'Materia desactivada correctamente',
+      message:
+        materia.estado
+          ? 'Materia activada correctamente'
+          : 'Materia desactivada correctamente',
       data: materia
     });
 
