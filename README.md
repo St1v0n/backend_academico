@@ -6,10 +6,6 @@ SUPABASE_ANON_KEY=tu-anon-key-aqui
 SUPABASE_SERVICE_KEY=tu-service-role-key-aqui
 
 # Conexión directa a PostgreSQL (la que ya tienes)
-DATABASE_URL=postgresql://postgres.bnstzdnooxjrrqvnfwue:uuIm3SF2c3lCFT6A@aws-1-us-west-1.pooler.supabase.com:5432/postgres
-
-JWT_SECRET=academic_system_secret
-
 
 # 📄 DOCUMENTACIÓN TÉCNICA DEL BACKEND
 
