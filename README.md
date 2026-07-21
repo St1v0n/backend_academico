@@ -1,9 +1,6 @@
 PORT=3000
 
 # Supabase
-SUPABASE_URL=https://bnstzdnooxjrrqvnfwue.supabase.co
-SUPABASE_ANON_KEY=tu-anon-key-aqui
-SUPABASE_SERVICE_KEY=tu-service-role-key-aqui
 
 # Conexión directa a PostgreSQL (la que ya tienes)
 
